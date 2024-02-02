@@ -6,7 +6,7 @@ module.exports = new Sequelize(
     config.get("DB_USER"),
     config.get("DB_PASSWORD"),
     {
-        dialect: 'postgres',
+        dialect:'postgres',    //dialect: 'mssql',
         host: config.get("DB_HOST"),
         port: config.get("DB_PORT")
     }

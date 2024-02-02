@@ -231,4 +231,48 @@ router.post('/company',
         }
     })
 
+router.post('/positions',
+    async (req,res) => {
+        try {
+            const connection = mysql.createConnection({
+                host: config.get('host'),
+                user: config.get('user'),
+                password: config.get('password'),
+                database: config.get('database'),
+            })
+
+            await connection.connect(err => {
+                if (err) {
+                    connection.end()
+                    res.status(500).json({message: err.message})
+                }
+                connection.query(`SELECT DISTINCT developer FROM t13 WHERE inn = '8617014209';`, function (err,rows,fields){
+                    console.log(err)
+                    if(err) res.status(400).json({message: err.message})
+                    if(!rows[0]) res.status(500).json({message: 'Table is empty',error:1})
+
+                    rows.map(async obj => {
+                        try{
+                            await Models.Jobs.create({
+                                name:Object.values(obj)[0],
+                                rules:0,
+                            })
+                        }catch (e){
+                            res.status(400).send(e.message)
+                        }
+                    })
+
+
+                    const req = rows.map(obj => Object.values(obj))
+                    connection.end()
+                    res.status(200).json({req})
+                })
+            })
+        }catch (e) {
+            res.status(500).json({message: 'Чтото пошло не так, попробуйте снова'})
+        }
+    })
+
+
 module.exports = router
+

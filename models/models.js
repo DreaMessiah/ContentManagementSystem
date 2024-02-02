@@ -4,12 +4,12 @@ const {Sequelize, DataTypes} = require('sequelize')
 const User = sequelize.define('users',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     tn:{type:DataTypes.STRING,unique:true},
-    full_name:{type:DataTypes.STRING},
-    login:{type:DataTypes.STRING},
+    full_name:{type:DataTypes.TEXT},
+    login:{type:DataTypes.STRING,unique:true},
     email:{type:DataTypes.STRING},
     password:{type:DataTypes.STRING},
-    avatar:{type:DataTypes.STRING},
-    account:{type:DataTypes.STRING},
+    avatar:{type:DataTypes.TEXT},
+    account:{type:DataTypes.TEXT},
     inn:{type:DataTypes.STRING},
     admin:{type:DataTypes.STRING},
     moderator:{type:DataTypes.BOOLEAN,defaultValue: false},
@@ -22,36 +22,43 @@ const User = sequelize.define('users',{
     snils:{type:DataTypes.STRING},
     unit:{type:DataTypes.INTEGER}
 })
+const Token = sequelize.define('token',{
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    user_id:{type:DataTypes.INTEGER,ref:'users'},
+    device_token:{type:DataTypes.TEXT},
+    refresh_token:{type:DataTypes.TEXT,require:true}
+})
 const Files = sequelize.define('files',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     name:{type:DataTypes.STRING},
     type:{type:DataTypes.STRING},
     size:{type:DataTypes.STRING},
-    access_link:{type:DataTypes.STRING},
+    access_link:{type:DataTypes.TEXT},
     user_id:{type:DataTypes.INTEGER,ref:'users'},
     object_id:{type:DataTypes.INTEGER,ref:'objects'},
     parent_id:{type:DataTypes.INTEGER}
 })
 const T13 = sequelize.define('t13', {
     id:{type:DataTypes.INTEGER,primaryKey: true,autoIncrement:true},
-    name:{type:DataTypes.STRING},
-    developer:{type:DataTypes.STRING},
-    branch:{type:DataTypes.STRING},
-    employment:{type:DataTypes.STRING},
-    document:{type:DataTypes.STRING},
-    dismissal:{type:DataTypes.STRING},
-    tn:{type:DataTypes.STRING},
-    snils:{type:DataTypes.STRING},
-    passport:{type:DataTypes.STRING},
-    rk:{type:DataTypes.INTEGER},
-    groups:{type:DataTypes.STRING},
+    name:{type:DataTypes.TEXT},
+    developer:{type:DataTypes.TEXT},
+    branch:{type:DataTypes.TEXT},
+    employment:{type:DataTypes.TEXT},
+    document:{type:DataTypes.TEXT},
+    dismissal:{type:DataTypes.TEXT},
+    tn:{type:DataTypes.TEXT},
+    snils:{type:DataTypes.TEXT},
+    passport:{type:DataTypes.TEXT},
+    rk:{type:DataTypes.TEXT},
+    groups:{type:DataTypes.TEXT},
     sn:{type:DataTypes.INTEGER},
-    status:{type:DataTypes.STRING},
-    gender:{type:DataTypes.STRING},
+    status:{type:DataTypes.TEXT},
+    gender:{type:DataTypes.TEXT},
     salary:{type:DataTypes.FLOAT},
-    method:{type:DataTypes.STRING},
+    method:{type:DataTypes.TEXT},
     month:{type:DataTypes.STRING},
     years:{type:DataTypes.INTEGER},
+    birth:{type:DataTypes.STRING},
     inn:{type:DataTypes.STRING},
     d1:{type:DataTypes.STRING},
     d2:{type:DataTypes.STRING},
@@ -337,7 +344,7 @@ const TableZayavka = sequelize.define('table-zayavka',{
 const Days = sequelize.define('days',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     month:{type:DataTypes.STRING},
-    name:{type:DataTypes.STRING},
+    name:{type:DataTypes.TEXT},
     number:{type:DataTypes.STRING},
     cost:{type:DataTypes.STRING},
     days:{type:DataTypes.STRING},
@@ -352,8 +359,8 @@ const Days = sequelize.define('days',{
 })
 const Objects = sequelize.define('objects',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
-    shifr:{type:DataTypes.STRING},
-    nameobject:{type:DataTypes.STRING},
+    shifr:{type:DataTypes.TEXT},
+    nameobject:{type:DataTypes.TEXT},
     inn:{type:DataTypes.STRING},
     ras:{type:DataTypes.INTEGER},
     ogm_j:{type:DataTypes.INTEGER},
@@ -361,7 +368,6 @@ const Objects = sequelize.define('objects',{
     dop2:{type:DataTypes.INTEGER},
     prior:{type:DataTypes.INTEGER}
 })
-
 const NumberObjects = sequelize.define('number_objects',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     shifr:{type:DataTypes.STRING},
@@ -372,7 +378,6 @@ const NumberObjects = sequelize.define('number_objects',{
     inn:{type:DataTypes.STRING},
     login:{type:DataTypes.STRING}
 })
-
 const ObjectsSV = sequelize.define('obj_sv',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     shifr:{type:DataTypes.STRING},
@@ -383,8 +388,28 @@ const ObjectsSV = sequelize.define('obj_sv',{
     inn:{type:DataTypes.STRING},
     login:{type:DataTypes.STRING}
 })
+const Positions = sequelize.define('positions',{
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    name:{type:DataTypes.STRING},
+    rules:{type:DataTypes.INTEGER}
+})
+const Jobs = sequelize.define('positions',{
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    name:{type:DataTypes.STRING},
+    rules:{type:DataTypes.INTEGER}
+})
 
+const Phonebook = sequelize.define('phonebook',{
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    name:{type:DataTypes.STRING},
+    position_id:{type:DataTypes.INTEGER,ref:'positions'},
+    job_id:{type:DataTypes.INTEGER,ref:'jobs'},
+    mobile_phone:{type:DataTypes.STRING},
+    city_phone:{type:DataTypes.STRING},
+    ats:{type:DataTypes.STRING},
+    email:{type:DataTypes.STRING}
+})
 module.exports = {
-    User,T13,Company,TableZayavka,TableTabel,TabelSv,YmSvarka,Days,NumberObjects,Objects,ObjectsSV,Files
+    User,T13,Company,TableZayavka,TableTabel,TabelSv,YmSvarka,Days,NumberObjects,Objects,ObjectsSV,Files,Positions,Token,Phonebook,Jobs
 }
 

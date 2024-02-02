@@ -107,6 +107,19 @@ export default function SyncPage(){
 
         }
     }
+    const handleSyncPositions = async () => {
+        try{
+            const {req} = await request(url+'/sync/positions','POST')
+            setDataList(req)
+            setModel(['asdasd'])
+            setSwch(true)
+            setNumberRows(req.length)
+            console.log(req)
+        }catch (e){
+
+        }
+    }
+
 
     const handleSyncTnForUsers = async () => {
         try{
@@ -131,7 +144,7 @@ export default function SyncPage(){
                     <div onClick={handleSyncUsers} className='button'>Sync table users</div>
                     <div onClick={handleSyncObjects} className='button'>Sync table objects</div>
                     <div onClick={handleSyncCompany} className='button'>Sync table company</div>
-
+                    <div onClick={handleSyncPositions} className='button'>Sync table positions</div>
 
                     <div>{numberRows}</div>
                 </div>
