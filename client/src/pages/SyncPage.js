@@ -71,7 +71,6 @@ export default function SyncPage(){
     const empty = () => {
 
     }
-
     const handleSyncUsers = async () => {
         try{
             const {req} = await request(url+'/sync/users','POST')
@@ -119,8 +118,6 @@ export default function SyncPage(){
 
         }
     }
-
-
     const handleSyncTnForUsers = async () => {
         try{
             console.log('pred')
@@ -134,20 +131,109 @@ export default function SyncPage(){
 
         }
     }
+    const handleSyncTabelToPayslip = async () => {
+        try{
+            const {req} = await request(url+'/sync/payslip','POST')
+            console.log(req)
+            setDataList(req)
+            setModel([1,2,3,4,5])
+            setNumberRows(req.length)
+            setSwch(true)
+        }catch (e){
+
+        }
+    }
+    const handleSyncTableTabel = async () => {
+        try{
+            const {req} = await request(url+'/sync/tt','POST')
+            console.log(req)
+            setDataList(req)
+            setModel([1,2,3,4,5])
+            setNumberRows(req.length)
+            setSwch(true)
+        }catch (e){
+
+        }
+    }
+    const handleSyncTableSv = async () => {
+        try{
+            const {req} = await request(url+'/sync/tsv','POST')
+            console.log(req)
+            setDataList(req)
+            setModel([1,2,3,4,5])
+            setNumberRows(req.length)
+            setSwch(true)
+        }catch (e){
+
+        }
+    }
+    const handleSyncT13 = async () => {
+        try{
+            const {req} = await request(url+'/sync/t13','POST')
+            console.log(req)
+            setDataList([['Сервер ответил']])
+            setModel([1,2,3,4,5])
+            setNumberRows(req.length)
+            setSwch(true)
+        }catch (e){
+
+        }
+    }
+
+    function f(n) {
+        if (n === 0) return 1
+        else return n * f(n - 1)
+    }
+
+    const handleSyncKtuList = async () => {
+        try{
+            const {req} = await request(url+'/sync/ktulist','POST')
+            console.log(req)
+            setDataList(req)
+            setModel([1,2,3,4,5])
+            setNumberRows(req.length)
+            setSwch(true)
+        }catch (e){
+
+        }
+    }
+    const emptys = async () => {
+        console.log('empty')
+    }
+    const handleTel = async () => {
+        try{
+            const {req} = await request(url+'/sync/setel','POST')
+            console.log(req)
+            setDataList(req)
+            setModel([1,2,3,4,5])
+            setNumberRows(req.length)
+            setSwch(true)
+        }catch (e){
+
+        }
+    }
     return (
         <div className='sync-box'>
             <div className='left-box'>
                 <div className='control-box'>
-                    <MySelect setChange={handleSelectTable} className='select' options={tablesList}/>
+                    <MySelect setChange={handleSelectTable} className='select' options={tablesList} />
                     <div onClick={handleLoading} className='button'>Load table</div>
                     <div onClick={handleTypes} className='button'>Load model</div>
                     <div onClick={handleSyncUsers} className='button'>Sync table users</div>
                     <div onClick={handleSyncObjects} className='button'>Sync table objects</div>
                     <div onClick={handleSyncCompany} className='button'>Sync table company</div>
                     <div onClick={handleSyncPositions} className='button'>Sync table positions</div>
+                    <div onClick={handleSyncTabelToPayslip} className='button'>Sync tabel table to payslip</div>
+                    <div onClick={handleSyncTableTabel} className='button'>Sync TableTabel</div>
+                    <div onClick={handleSyncTableSv} className='button'>Sync TableSV</div>
+                    <div onClick={handleSyncT13} className='button'>Sync T13</div>
+                    <div onClick={handleSyncKtuList} className='button'>Sync KtuList</div>
+
+                    <div onClick={handleTel} className='button'>SetTelephones</div>
 
                     <div>{numberRows}</div>
                 </div>
+
             </div>
             <div className='right-box'>
                 {swch ?
@@ -160,7 +246,7 @@ export default function SyncPage(){
                 {dataList.map((row,rowIndex) => (
                     <div key={rowIndex} className='row'>
                         {row.map((cell,cellIndex) => (
-                                <div onMouseLeave={() => handleMouseLeave()} onMouseEnter={() => handleMouseEnter(rowIndex, cellIndex)} key={cellIndex} className="cell">{row[cellIndex]}<div onMouseLeave={() => empty} onMouseEnter={() => empty} className={hoveredCell && hoveredCell.rowIndex === rowIndex && hoveredCell.cellIndex === cellIndex ?'flex cellmaxima': 'cellmaxima'}>{row[cellIndex]}</div></div>
+                            <div onMouseLeave={() => handleMouseLeave()} onMouseEnter={() => handleMouseEnter(rowIndex, cellIndex)} key={cellIndex} className="cell">{row[cellIndex]}<div onMouseLeave={() => empty} onMouseEnter={() => empty} className={hoveredCell && hoveredCell.rowIndex === rowIndex && hoveredCell.cellIndex === cellIndex ?'flex cellmaxima': 'cellmaxima'}>{row[cellIndex]}</div></div>
                         ))}
                     </div>
                 ))}
@@ -176,6 +262,8 @@ export default function SyncPage(){
                 </div>
                 }
             </div>
+
+
         </div>
     )
 }

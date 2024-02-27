@@ -18,6 +18,9 @@ export default function MySelect({options,setChange}){
                     fontSize:'0.7rem',
                     fontWeight:'600',
                 }),
+                indicatorsContainer:(baseStyles, state) => ({
+                    display:'none',
+                }),
                 control: (baseStyles, state) => ({
                     ...baseStyles,
                     backgroundColor: 'rgba(51, 51, 51, 1)',

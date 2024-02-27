@@ -15,6 +15,7 @@ router.post('/gettables', async (req, res) => {
 
         await connection.connect((err) => {
             if (err) {
+                console.log(err)
                 connection.end();
                 return res.status(500).json({ message: err.message });
             }
@@ -89,33 +90,33 @@ function mapMySQLtoPostgreSQL(mysqlType) {
         case 9: // MEDIUMINT
         case 3: // INT
         case 8: // BIGINT
-            return 'DataTypes.INTEGER';
+            return 'type:DataTypes.INTEGER';
         case 4: // FLOAT
         case 5: // DOUBLE
-            return 'DataTypes.FLOAT';
+            return 'type:DataTypes.FLOAT';
         case 246: // DECIMAL
         case 247: // ENUM
         case 248: // SET
-            return 'DataTypes.STRING';
+            return 'type:DataTypes.STRING';
         case 253: // VARCHAR
         case 254: // CHAR
         case 252: // TEXT
-            return `DataTypes.STRING`;
+            return `type:DataTypes.STRING`;
         case 7: // TIMESTAMP
         case 12: // DATETIME
-            return 'DataTypes.DATE';
+            return 'type:DataTypes.DATE';
         case 10: // DATE
-            return 'DataTypes.DATE';
+            return 'type:DataTypes.DATE';
         case 11: // TIME
-            return 'DataTypes.TIME';
+            return 'type:DataTypes.TIME';
         case 249: // TINYBLOB
         case 250: // MEDIUMBLOB
         case 251: // LONGBLOB
-            return 'DataTypes.STRING';
+            return 'type:DataTypes.STRING';
         case 15: // BOOLEAN
-            return 'DataTypes.BOOLEAN';
+            return 'type:DataTypes.BOOLEAN';
         default:
-            return 'DataTypes.STRING';
+            return 'type:DataTypes.STRING';
     }
 }
 module.exports = router

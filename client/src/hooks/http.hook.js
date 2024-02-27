@@ -9,7 +9,7 @@ export const useHttp = () => {
             if(body) body = JSON.stringify(body)
             setLoading(true)
 
-            const responce = await fetch(url, { method: "POST", // *GET, POST, PUT, DELETE, etc.
+            const response = await fetch(url, { method: "POST", // *GET, POST, PUT, DELETE, etc.
                 mode: "cors", // no-cors, *cors, same-origin
                 cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
                 credentials: "same-origin", // include, *same-origin, omit
@@ -22,7 +22,7 @@ export const useHttp = () => {
                 body: body
             })
 
-            const data = await responce.json()
+            const data = await response.json()
 
             if(!data){
                 setError(data.message)
@@ -35,7 +35,7 @@ export const useHttp = () => {
         }catch (e){
             setLoading(false)
             setError(e.message)
-            console.log(e.message)
+            console.log(e)
         }
     }, [])
 

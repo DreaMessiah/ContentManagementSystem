@@ -33,7 +33,7 @@ const start = async () => {
         });
 
         await sequelize.authenticate()
-        await sequelize.sync({ alter: true })
+        //await sequelize.sync({ alter: true })
         console.log('Tables is synchronized...');
 
     }catch (e){
