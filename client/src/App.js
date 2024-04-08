@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import SyncPage from "./pages/SyncPage";
 import FilesPage from "./pages/files/FilesPage";
+import LoadingPage from "./pages/LoadingPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
                       <main className="content">
                           <Routes>
                               <Route path='/' element={<DashboardPage/>} />
+                              <Route path='/loading' element={<LoadingPage/>} />
                               <Route path='/main' element={<MainPage/>} />
                               <Route path='/sync' element={<SyncPage/>} />
                               <Route path='/files' element={<FilesPage/>} />

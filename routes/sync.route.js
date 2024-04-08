@@ -568,7 +568,6 @@ router.post('/payslip',
                     console.log(err)
                     if(err) res.status(400).json({message: err.message})
                     if(!rows[0]) res.status(500).json({message: 'Table is empty',error:1})
-
                     let year = ''
                     let month = ''
                     let match = ''
@@ -655,6 +654,7 @@ router.post('/t13',
                                 month:obj.mesyatz,
                                 year:obj.years,
                                 inn:obj.inn,
+                                birthday:obj.birthday,
                                 d1:obj.d1,
                                 d2:obj.d2,
                                 d3:obj.d3,

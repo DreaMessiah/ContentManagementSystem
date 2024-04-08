@@ -5,6 +5,9 @@ const sequelize = require('./db')
 const config = require('config')
 const cors = require('cors');
 const md5 = require('md5')
+const router = require('./route/index')
+const cookieParser = require('cookie-parser')
+const errorMiddlewere = require('./middlewere/error.middlewere')
 
 const app = express()
 const server = createServer(app);
@@ -12,14 +15,24 @@ const io = new Server(server);
 
 const PORT = config.get('serverPort')
 
-app.use(cors());
+app.use(cors({
+    origin: config.get('client_url'),
+    credentials: true // Если используются учетные данные, например, куки или заголовки авторизации
+}));
+
 
 app.use(express.json({ extended: true }))
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/sync/',require('./routes/sync.route'))
 app.use('/db/',require('./routes/mydays.route'))
-app.use('/api/',require('./routes/auth.route'))
+
+app.use(cookieParser())
+app.use(express.json({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
+app.use('/api', router)
+
+app.use(errorMiddlewere) //Обязательно последний!
 const start = async () => {
     try{
         //const hashPassword = md5('никитин'+'dfgjldfjdfgljdlf55');

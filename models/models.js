@@ -1,6 +1,5 @@
 const sequelize = require('../db')
 const {Sequelize, DataTypes} = require('sequelize')
-
 const User = sequelize.define('users',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     tn:{type:DataTypes.STRING,unique:true},
@@ -20,23 +19,14 @@ const User = sequelize.define('users',{
     phone:{type:DataTypes.STRING},
     phonecompany:{type:DataTypes.STRING},
     snils:{type:DataTypes.STRING},
-    unit:{type:DataTypes.INTEGER}
+    unit:{type:DataTypes.INTEGER},
+    developer:{type:DataTypes.TEXT}
 })
 const Token = sequelize.define('token',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     user_id:{type:DataTypes.INTEGER,ref:'users'},
     device_token:{type:DataTypes.TEXT},
     refresh_token:{type:DataTypes.TEXT,require:true}
-})
-const Files = sequelize.define('files',{
-    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
-    name:{type:DataTypes.STRING},
-    type:{type:DataTypes.STRING},
-    size:{type:DataTypes.STRING},
-    access_link:{type:DataTypes.TEXT},
-    user_id:{type:DataTypes.INTEGER,ref:'users'},
-    object_id:{type:DataTypes.INTEGER,ref:'objects'},
-    parent_id:{type:DataTypes.INTEGER}
 })
 const T13 = sequelize.define('t13', {
     id:{type:DataTypes.INTEGER,primaryKey: true,autoIncrement:true},
@@ -57,6 +47,7 @@ const T13 = sequelize.define('t13', {
     month:{type:DataTypes.STRING},
     year:{type:DataTypes.STRING},
     inn:{type:DataTypes.STRING},
+    birthday:{type:DataTypes.STRING},
     d1:{type:DataTypes.STRING},
     d2:{type:DataTypes.STRING},
     d3:{type:DataTypes.STRING},
@@ -378,7 +369,6 @@ const NumberObjects = sequelize.define('number_objects',{
     inn:{type:DataTypes.STRING},
     login:{type:DataTypes.STRING}
 })
-
 const ObjectsSV = sequelize.define('obj_sv',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     shifr:{type:DataTypes.STRING},
@@ -485,7 +475,183 @@ const Ktulist = sequelize.define('ktulist',{
     ktu:{type:DataTypes.FLOAT},
     percent:{type:DataTypes.INTEGER},
 })
+const Files = sequelize.define('files',{
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    name:{type:DataTypes.STRING},
+    type:{type:DataTypes.STRING},
+    size:{type:DataTypes.INTEGER,default:0},
+    access_link:{type:DataTypes.TEXT},
+    path:{type:DataTypes.TEXT,default: ''},
+    user_id:{type:DataTypes.INTEGER,ref:'users'},
+    parent_id:{type:DataTypes.INTEGER,ref:'files'},
+    child_id: {type: DataTypes.ARRAY(DataTypes.INTEGER)},
+    basket:{type:DataTypes.BOOLEAN,default:false},
+})
+const DiskSpace = sequelize.define('diskspace',{
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    user_id:{type:DataTypes.INTEGER,ref:'users'},
+    usedspace:{type:DataTypes.BIGINT,default:0},
+    diskspace:{type:DataTypes.BIGINT,default:0}
+})
+const Survey  = sequelize.define('survey',{
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    title:{type:DataTypes.TEXT},
+    text:{type:DataTypes.TEXT},
+    type:{type:DataTypes.INTEGER,default:0},
+    creater_id:{type:DataTypes.INTEGER,ref:'users'},
+    onanswer:{type:DataTypes.BOOLEAN,default:true},
+    image:{type:DataTypes.STRING},
+    trash:{type:DataTypes.BOOLEAN,default:false}
+})
+const Question = sequelize.define('question', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    survey_id:{type:DataTypes.INTEGER,ref:'survey'},
+    type:{type:DataTypes.INTEGER,default:0},
+    text:{type:DataTypes.TEXT}
+})
+const Answer = sequelize.define('answer', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    question_id:{type:DataTypes.INTEGER,ref:'question'},
+    survey_id:{type:DataTypes.INTEGER,ref:'survey'},
+    user_id:{type:DataTypes.INTEGER,ref:'survey'},
+})
+const Posts = sequelize.define('rss', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    title:{type:DataTypes.TEXT,allowNull: false},
+    text:{type:DataTypes.TEXT,allowNull: false},
+    image:{type:DataTypes.TEXT,allowNull: false},
+    json_data:{type:DataTypes.JSON,default:null},
+    oncomment:{type:DataTypes.BOOLEAN,default:true},
+    trash:{type:DataTypes.BOOLEAN,default:false},
+    clicks:{type:DataTypes.INTEGER,default:0}
+})
+const BestBoard = sequelize.define('bestboard', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    name:{type:DataTypes.STRING},
+    tn:{type:DataTypes.STRING},
+    developer:{type:DataTypes.STRING},
+    onboard:{type:DataTypes.STRING},
+    dev:{type:DataTypes.STRING},
+    inn:{type:DataTypes.STRING}
+})
+const MainBlocks  = sequelize.define('mainblocks',{
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    type:{type:DataTypes.INTEGER},
+    block_id:{type:DataTypes.INTEGER,allowNull:false},
+    data:{type:DataTypes.TEXT,default:''}
+})
+const Contest  = sequelize.define('contest',{
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    user_id:{type:DataTypes.INTEGER,ref:'users'},
+    phone:{type:DataTypes.STRING},
+    mail:{type:DataTypes.STRING},
+    name:{type:DataTypes.TEXT},
+    age:{type:DataTypes.INTEGER},
+    image:{type:DataTypes.TEXT},
+    trash:{type:DataTypes.BOOLEAN,default:false}
+})
+const Nominations  = sequelize.define('nominations', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.TEXT}
+})
+const KidsAnswers  = sequelize.define('kidsanswers',{
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    contest_id:{type:DataTypes.INTEGER,ref:'contest'},
+    nomination_id:{type:DataTypes.INTEGER,ref:'nominations'},
+    user_id:{type:DataTypes.INTEGER,ref:'users'}
+})
+const Managers =  sequelize.define('managers',{
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    mail:{type:DataTypes.STRING},
+    name:{type:DataTypes.STRING},
+    tn:{type:DataTypes.STRING},
+    description:{type:DataTypes.TEXT}
+})
+const Messages = sequelize.define('messages', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    tn_to:{type:DataTypes.STRING,ref:'question'},
+    tn_from:{type:DataTypes.STRING,ref:'survey'},
+    title:{type:DataTypes.TEXT},
+    text:{type:DataTypes.TEXT},
+    files:{type: DataTypes.ARRAY(DataTypes.INTEGER)},
+    trash_to:{type:DataTypes.BOOLEAN,default:false},
+    trash_from:{type:DataTypes.BOOLEAN,default:false},
+    read:{type:DataTypes.BOOLEAN,default:false}
+})
+const Chats = sequelize.define('chats', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    tn_creator:{type:DataTypes.STRING,ref:'question'},
+    tn_direction:{type:DataTypes.STRING,ref:'survey'},
+    trash:{type:DataTypes.BOOLEAN,default:false}
+})
+const PostComments = sequelize.define('postcomments', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    creator_tn:{type:DataTypes.STRING,ref:'users'},
+    post_id:{type:DataTypes.INTEGER,ref:'rss'},
+    text:{type:DataTypes.TEXT},
+    trash:{type:DataTypes.BOOLEAN,default:false}
+})
+const Tasks = sequelize.define('tasks', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    name:{type:DataTypes.TEXT},
+    text:{type:DataTypes.TEXT},
+    creator_tn:{type:DataTypes.STRING,ref:'users'},
+    expiration:{type:DataTypes.DATE},
+    status_id:{type:DataTypes.INTEGER,ref:'taskstatuses'},
+    priority_id:{type:DataTypes.INTEGER,ref:'priority'},
+    connection_id:{type:DataTypes.INTEGER,ref:'taskconnections'},
+    trash:{type:DataTypes.BOOLEAN,default:false}
+})
+const TaskConnections = sequelize.define('taskconnections', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    obj:{type:DataTypes.STRING},
+    type:{type:DataTypes.INTEGER}
+})
+const TaskDocs = sequelize.define('taskdocs', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    filename:{type:DataTypes.STRING},
+    chain_id:{type:DataTypes.INTEGER,ref:'taskchains'},
+    task_id:{type:DataTypes.INTEGER,ref:'tasks'}
+})
+const TaskResults = sequelize.define('taskresults', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    task_id:{type:DataTypes.INTEGER,ref:'tasks'},
+    files_id: {type: DataTypes.ARRAY(DataTypes.INTEGER)},
+    text:{type:DataTypes.TEXT}
+})
+const TaskChains = sequelize.define('taskchains', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    task_id:{type:DataTypes.INTEGER,ref:'tasks'},
+    user_tn:{type:DataTypes.STRING,ref:'users'},
+    status_id:{type:DataTypes.INTEGER,ref:'statuses'},
+    next:{type: DataTypes.ARRAY(DataTypes.STRING)},
+    type:{type:DataTypes.INTEGER}
+})
+const TaskGroups = sequelize.define('taskgroups', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    name:{type:DataTypes.TEXT},
+    creator_tn:{type:DataTypes.STRING,ref:'users'},
+    users_tn:{type: DataTypes.ARRAY(DataTypes.STRING)},
+})
+const Statuses = sequelize.define('statuses', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    value:{type:DataTypes.TEXT},
+    label:{type:DataTypes.TEXT},
+    type:{type:DataTypes.INTEGER}
+})
+const Priority = sequelize.define('priority', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    value:{type:DataTypes.TEXT},
+    label:{type:DataTypes.TEXT},
+    type:{type:DataTypes.INTEGER}
+})
+
+const StatementsSimples = sequelize.define('statementssimples', {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    name:{type:DataTypes.TEXT},
+    file:{type:DataTypes.TEXT},
+})
 
 module.exports = {
-    User,T13,Company,TableZayavka,TableTabel,TabelSv,YmSvarka,Days,NumberObjects,Objects,ObjectsSV,Files,Token,Phonebook,Jobs,Payslip,Ymshifr,Ktulist
+    StatementsSimples,TaskGroups,Priority,Tasks,TaskConnections,TaskDocs,TaskResults,TaskChains,Statuses,PostComments,Chats,Messages,Managers,MainBlocks,Contest,Nominations,KidsAnswers,User,T13,Company,TableZayavka,TableTabel,TabelSv,YmSvarka,Days,NumberObjects,Objects,ObjectsSV,Token,Phonebook,Jobs,Payslip,Ymshifr,Ktulist,Files,DiskSpace,Survey,Question,Answer,BestBoard,Posts
 }
