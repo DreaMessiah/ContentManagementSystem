@@ -8,6 +8,7 @@ module.exports = new Sequelize(
     {
         dialect:'postgres',    //dialect: 'mssql',
         host: config.get("DB_HOST"),
-        port: config.get("DB_PORT")
+        port: config.get("DB_PORT"),
+        logging: false
     }
 )

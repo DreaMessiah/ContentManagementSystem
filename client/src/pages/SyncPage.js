@@ -13,11 +13,10 @@ export default function SyncPage(){
     const [tablesList,setTableList] = useState([])
     const [table,setTable] = useState([])
     const [hoveredCell, setHoveredCell] = useState(null);
-    const url = 'http://localhost:5000'
+    const url = 'http://localhost:5001'
 
     useEffect(() => {
-        const tablesreq = loadingHandler()
-        console.log(tablesreq)
+        loadingHandler()
     },[])
 
     const loadingHandler = async () => {

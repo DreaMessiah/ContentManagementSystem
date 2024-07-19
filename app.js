@@ -8,6 +8,7 @@ const md5 = require('md5')
 const router = require('./route/index')
 const cookieParser = require('cookie-parser')
 const errorMiddlewere = require('./middlewere/error.middlewere')
+const {Sequelize} = require("sequelize");
 
 const app = express()
 const server = createServer(app);
@@ -43,15 +44,25 @@ const start = async () => {
         })
         io.on('connection', (socket) => {
             console.log('a user '+ socket + ' connected');
-        });
+        })
 
         await sequelize.authenticate()
+        //console.log(await getSequenceName('tabletabels','id'))
+        //await sequelize.query('ALTER SEQUENCE "tabletabels_id_seq" RESTART WITH 8456')
         //await sequelize.sync({ alter: true })
-        console.log('Tables is synchronized...');
-
+        console.log('Tables is synchronized...')
     }catch (e){
         console.log(e.message)
     }
 }
+
+const getSequenceName = async (tableName, columnName) => {
+    const result = await sequelize.query(
+        `SELECT pg_get_serial_sequence('${tableName}', '${columnName}') AS sequence_name`,
+        { type: Sequelize.QueryTypes.SELECT }
+    );
+    return result[0].sequence_name;
+};
+
 
 start()

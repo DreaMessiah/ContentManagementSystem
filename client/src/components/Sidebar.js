@@ -9,11 +9,7 @@ export default function Sidebar () {
                 <Link to='/loading'>Database Loading</Link>
                 <Link to='/'>Users List</Link>
                 <Link to='/files'>Files</Link>
-                <Link to='/'>Notifications</Link>
-                <Link to='/'>Logs</Link>
-                <Link to='/'>History</Link>
-                <Link to='/'>Context Data</Link>
-                <Link to='/'>Settings</Link>
+                <Link to='/weldings'>Weldings</Link>
             </div>
         </aside>
     )

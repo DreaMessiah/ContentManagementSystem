@@ -8,7 +8,7 @@ import Sidebar from "./components/Sidebar";
 import SyncPage from "./pages/SyncPage";
 import FilesPage from "./pages/files/FilesPage";
 import LoadingPage from "./pages/LoadingPage";
-
+import WeldingsPage from "./pages/WeldingsPage";
 function App() {
   return (
       <DataProvider>
@@ -24,7 +24,7 @@ function App() {
                               <Route path='/main' element={<MainPage/>} />
                               <Route path='/sync' element={<SyncPage/>} />
                               <Route path='/files' element={<FilesPage/>} />
-                              <Route path='/files' element={<FilesPage/>} />
+                              <Route path='/weldings' element={<WeldingsPage/>} />
                           </Routes>
                       </main>
                   </div>
